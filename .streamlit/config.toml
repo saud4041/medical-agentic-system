@@ -1,0 +1,8 @@
+[server]
+# Disable heavy file watchers on virtual environments and vector binaries
+folderWatchBlacklist = [".venv", "vectorstore", "knowledgebase", "__pycache__"]
+watchVariableChanges = false
+
+[browser]
+# Block Streamlit from pinging external tracking telemetry servers at startup
+gatherUsageStats = false

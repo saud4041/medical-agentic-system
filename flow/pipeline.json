@@ -1,0 +1,56 @@
+{
+  "id": "medical-multi-agent-system",
+  "name": "Medical Multi-Agent Workspace",
+  "description": "Orchestrated Routing Architecture between ChromaDB RAG Engine and SQLite Ecosystems",
+  "nodes": [
+    {
+      "id": "ollama-llm",
+      "type": "OllamaModel",
+      "data": {
+        "model_name": "deepseek-r1:7b",
+        "temperature": 0.2,
+        "base_url": "http://localhost:11434"
+      }
+    },
+    {
+      "id": "supervisor-router",
+      "type": "AgentRouterNode",
+      "data": {
+        "strategy": "Conditional Intent Extraction",
+        "routes": ["database_agent", "rag_agent"]
+      }
+    },
+    {
+      "id": "chromadb-vectorstore",
+      "type": "ChromaDBComponent",
+      "data": {
+        "collection_name": "medical_knowledge",
+        "persist_directory": "vectorstore/chroma_data/"
+      }
+    },
+    {
+      "id": "sqlite-datastore",
+      "type": "SQLiteComponent",
+      "data": {
+        "database_path": "database/medical_records.db"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "ollama-llm",
+      "target": "supervisor-router",
+      "type": "model_binding"
+    },
+    {
+      "source": "supervisor-router",
+      "target": "sqlite-datastore",
+      "condition": "intent == relational_patient_lookup"
+    },
+    {
+      "source": "supervisor-router",
+      "target": "chromadb-vectorstore",
+      "condition": "intent == abstract_medical_guideline"
+    }
+  ]
+}
