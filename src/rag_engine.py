@@ -35,12 +35,9 @@ class MedicalRAGEngine:
             query_embeddings=[query_vector], n_results=n_results
         )
 
-        # --- FIXED: UNPACK NESTED CHROMADB LIST STRUCTURE ---
         if results and "documents" in results and results["documents"]:
             doc_list = results["documents"]
 
-            # ChromaDB returns structures like [[doc1, doc2, doc3]].
-            # We check if the first item is a list and flatten it.
             if (
                 isinstance(doc_list, list)
                 and len(doc_list) > 0
@@ -48,7 +45,6 @@ class MedicalRAGEngine:
             ):
                 doc_list = doc_list[0]
 
-            # Filter out any lingering empty strings or None items
             clean_docs = [str(doc) for doc in doc_list if doc]
 
             if clean_docs:

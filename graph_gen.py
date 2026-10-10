@@ -1,13 +1,10 @@
 import os
 import sys
 
-# --- ENVIRONMENT PATH SETTING ---
-# Enables the graph engine execution layer to resolve internal root directories
 project_root = os.path.abspath(os.path.dirname(__file__))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-# Import the pre-compiled state workflow instance
 from src.graph import medical_agent_graph
 
 

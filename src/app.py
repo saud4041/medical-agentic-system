@@ -19,10 +19,8 @@ st.set_page_config(page_title="Medical Agentic System", page_icon="🩺", layout
 st.title("🩺 Medical Agentic System")
 st.markdown("---")
 
-# Initialize structured SQLite schemas
 init_db()
 
-# --- AUTOMATIC MOCK DATASET SEEDER ---
 if "data_seeded" not in st.session_state:
     # 1. Seed comprehensive, realistic clinical profiles into SQLite
     with get_db_connection() as conn:
